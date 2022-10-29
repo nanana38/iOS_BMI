@@ -34,7 +34,7 @@ class ViewController: UIViewController {
     }
     
     @IBAction func calculateButtonTapeed(_ sender: UIButton) {
-        bmiManager.calculateBMI(height: heightTextField.text!, weight: weightTextField.text!)
+        print(#function)
     }
     
     override func shouldPerformSegue(withIdentifier identifier: String, sender: Any?) -> Bool {
@@ -52,9 +52,7 @@ class ViewController: UIViewController {
         if segue.identifier == "toSecondVC" {
             let secondVC = segue.destination as! SecondViewController
             secondVC.modalPresentationStyle = .fullScreen
-            secondVC.bmiNumber = bmiManager.getBMIResult()
-            secondVC.bmiColor = bmiManager.getBackgroundCololr()
-            secondVC.adviceString = bmiManager.getBMIAdviceString()
+            secondVC.bmi = bmiManager.getBMI(height: heightTextField.text!, weight: weightTextField.text!)
         }
         heightTextField.text = ""
         weightTextField.text = ""

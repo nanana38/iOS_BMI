@@ -9,54 +9,41 @@ import UIKit
 
 struct BMICalculatorManager {
     
-    var bmi: Double?
+    private var bmi: BMI?
     
-    mutating func calculateBMI(height: String, weight: String) {
+    mutating func getBMI(height: String, weight: String) -> BMI {
+        calculateBMI(height: height, weight: weight)
+        return bmi ?? BMI(value: 0.0, color: .white, advice: "오류 발생")
+    }
+    
+    mutating private func calculateBMI(height: String, weight: String) {
         guard let h = Double(height), let w = Double(weight) else {
-            bmi = 0.0
+            bmi = BMI(value: 0.0, color: .white, advice: "오류 발생")
             return
         }
+        
         var bmiNumber = w / (h * h) * 10000
-        bmi = round(bmiNumber * 10) / 10
-    }
-    
-    func getBMIResult() -> Double {
-        return bmi ?? 0.0
-    }
-    
-    func getBackgroundCololr() -> UIColor {
-        guard let bmi = bmi else { return UIColor.black }
-        switch bmi {
+        bmiNumber = round(bmiNumber * 10) / 10
+        
+        switch bmiNumber {
         case ..<18.6:
-            return UIColor.gray
+            let color = UIColor.gray
+            bmi = BMI(value: bmiNumber, color: color , advice: "저체중")
         case 18.6..<23.0:
-            return UIColor.green
+            let color = UIColor.green
+            bmi = BMI(value: bmiNumber, color: color , advice: "표준")
         case 23.0..<25.0:
-            return UIColor.yellow
+            let color = UIColor.yellow
+            bmi = BMI(value: bmiNumber, color: color , advice: "과체중")
         case 25.0..<30.0:
-            return UIColor.orange
+            let color = UIColor.orange
+            bmi = BMI(value: bmiNumber, color: color , advice: "중도비만")
         case 30.0...:
-            return UIColor.red
+            let color = UIColor.red
+            bmi = BMI(value: bmiNumber, color: color , advice: "고도비만")
         default:
-            return UIColor.black
+            let color = UIColor.black
+            bmi = BMI(value: bmiNumber, color: color , advice: "오류")
+            }
         }
     }
-    
-    func getBMIAdviceString() -> String {
-        guard let bmi = bmi else { return "" }
-        switch bmi {
-        case ..<18.6:
-            return "저체중"
-        case 18.6..<23.0:
-            return "표준"
-        case 23.0..<25.0:
-            return "과체중"
-        case 25.0..<30.0:
-            return "중도비만"
-        case 30.0...:
-            return "고도비만"
-        default:
-            return ""
-        }
-    }
-}

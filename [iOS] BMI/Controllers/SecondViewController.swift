@@ -13,18 +13,17 @@ class SecondViewController: UIViewController {
     @IBOutlet var backButton: UIButton!
     @IBOutlet var adviceLabel: UILabel!
     
-    var bmiNumber: Double?
-    var adviceString: String?
-    var bmiColor: UIColor?
+    var bmi: BMI?
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
         configureUI()
         
-        bmiNumberLabel.text = "\(bmiNumber!)"
-        bmiNumberLabel.backgroundColor = bmiColor
-        adviceLabel.text = adviceString
+        guard let bmi = bmi else { return }
+        bmiNumberLabel.text = "\(bmi.value)"
+        bmiNumberLabel.backgroundColor = bmi.color
+        adviceLabel.text = bmi.advice
         backButton.setTitle("다시 계산하기", for: .normal)
     }
     
